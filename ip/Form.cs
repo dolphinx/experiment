@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace ip
 {
@@ -10,70 +11,95 @@ namespace ip
         {
             InitializeComponent();
         }
+
+        static int[] wavey = new int[] {
+            4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0,
+            0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4
+        };
         static void straight(byte[,] pixel, int width, int height)
         {
-            int[] wavey = new int[] {
-                0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4,
-                4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0
-            };
-            const int maxdy = 4;
-            int[] wavex = new int[] {
-                2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-                1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 0, 0, 0, 0, 0, 0, 0
-            };
+            for (var y = 0; y < height; ++y)
+            {
+                for (var x = 0; x < width; ++x)
+                {
+                    var dySun = wavey[x % wavey.Length];
+                    if (pixel[x, y + dySun] == 0)
+                    {
+                        straightHei(pixel, width, height, y);
+                        return;
+                    }
+                    var dyHei = wavey[(x + 26) % wavey.Length];
+                    if (pixel[x, y + dyHei] == 0)
+                    {
+                        straightSun(pixel, width, height, y);
+                        return;
+                    }
+                }
+            }
+        }
+
+        static void straightHei(byte[,] pixel, int width, int height, int startY)
+        {
             for (var x = 0; x < width; ++x)
             {
                 var dy = wavey[(x + 26) % wavey.Length];
                 if (dy > 0)
                 {
-                    for (var y = height - 1; y >= maxdy; --y)
-                    {
-                        pixel[x, y] = pixel[x, y - dy];
-                    }
+                    var y = startY;
+                    for (; y < height - dy; ++y)
+                        pixel[x, y] = pixel[x, y + dy];
+                    for (; y < height; ++y)
+                        pixel[x, y] = 255;
                 }
             }
-            int maxx = width - 8;
-            for (var y = 19; y < height; ++y)
+            int[] wavex = new int[] {
+                /*                 15                      */2,
+                1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+                1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 7, 7, 7,
+                7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
+            };
+            for (var y = startY > 15 ? startY : 15; y < height; ++y)
             {
-                var dx = wavex[(y - 19) % wavex.Length];
-                for (var x = 0; x < maxx; ++x)
-                {
+                var dx = wavex[y - 15];
+                var x = 0;
+                for (; x < width - dx; ++x)
                     pixel[x, y] = pixel[x + dx, y];
-                }
+                for (; x < width; ++x)
+                    pixel[x, y] = 255;
             }
         }
-        static void straightSun(byte[,] pixel, int width, int height)
+
+        static void straightSun(byte[,] pixel, int width, int height, int startY)
         {
-            int[] wavey = new int[] {
-                0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4,
-                4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0
-            };
-            const int maxdy = 4;
-            int[] wavex = new int[] {
-                1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-                0, 0, 0, 0, 0, 0, 0
-            };
             for (var x = 0; x < width; ++x)
             {
                 var dy = wavey[x % wavey.Length];
                 if (dy > 0)
                 {
-                    for (var y = height - 1; y >= maxdy; --y)
-                    {
-                        pixel[x, y] = pixel[x, y - dy];
-                    }
+                    var y = startY;
+                    for (; y < height - dy; ++y)
+                        pixel[x, y] = pixel[x, y + dy];
+                    for (; y < height; ++y)
+                        pixel[x, y] = 255;
                 }
             }
-            int maxx = width - 4;
-            for (var y = 19 + 18; y < height; ++y)
+            int[] wavex = new int[] {
+                //16
+                /* 3 + 12*/ 1,
+                1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 7,
+                7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
+            };
+            for (var y = startY > 19 + 12 ? startY : 19 + 12; y < height; ++y)
             {
-                var dx = wavex[(y - (19 + 18)) % wavex.Length];
-                for (var x = 0; x < maxx; ++x)
-                {
+                var dx = wavex[y - (19 + 12)];
+                var x = 0;
+                for (; x < width - dx; ++x)
                     pixel[x, y] = pixel[x + dx, y];
-                }
+                for (; x < width; ++x)
+                    pixel[x, y] = 255;
             }
         }
+
         public static Bitmap Do(string path)
         {
             Bitmap bmp = new Bitmap(path);
@@ -117,17 +143,22 @@ namespace ip
                 straight(pixel, width, height);
                 srcP = (byte*)(void*)scan;
                 srcOffset = bmpData.Stride - width * 3;
+                var lines = new string[height];
                 for (int y = 0; y < height; y++)
                 {
+                    var line = "";
                     for (int x = 0; x < width; x++, srcP += 3)
                     {
                         srcP[2] = srcP[1] = srcP[0] = pixel[x, y];
+                        line += pixel[x, y] == 255 ? " " : "█";
                     }
                     srcP += srcOffset;
+                    lines[y] = line;
                 }
+                File.WriteAllLines(path + ".txt", lines);
             }
             bmp.UnlockBits(bmpData);
-            bmp.Save("R:\\2.png");
+            bmp.Save(path + ".png");
             return bmp;
         }
 
