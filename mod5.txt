@@ -1,0 +1,16 @@
+chars[i].x + chars[i].width - 2
+
+	{
+		char c = chars[i].c;
+		s.push_back(__ascii_tolower(c));
+	}
+
+				y += 9;
+
+		size_t maxY = startY + 12;
+		for (; y < maxY; y++)
+
+				if (/*ctype != _ctype || */((ctype == 0) ^ (y <= startY + 2)))
+
+			if (y == startY + 2)
+				y += 6;
