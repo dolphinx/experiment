@@ -12,9 +12,33 @@ namespace ip
             InitializeComponent();
         }
 
-        static int[] wavey = new int[] {
+        static int[] waveysun = new int[] {
             4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0,
             0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4
+        };
+        static int[] waveyhei = new int[] {
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4,
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3,
+            4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3,
+            4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 3, 3, 3, 3,
+            3, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 2
+        };
+        static int[] waveyxi = new int[] {
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4,
+            4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4,
+            4, 4, 4, 4, 4, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4,
+            4, 4, 4, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4,
+            4, 4, 4, 3, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+            0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4
         };
         static void straight(byte[,] pixel, int width, int height)
         {
@@ -22,16 +46,16 @@ namespace ip
             {
                 for (var x = 0; x < width; ++x)
                 {
-                    var dySun = wavey[x % wavey.Length];
+                    var dySun = waveysun[x % waveysun.Length];
                     if (pixel[x, y + dySun] == 0)
                     {
                         straightHei(pixel, width, height, y);
                         return;
                     }
-                    var dyHei = wavey[(x + 26) % wavey.Length];
+                    var dyHei = waveysun[(x + 26) % waveysun.Length];
                     if (pixel[x, y + dyHei] == 0)
                     {
-                        straightSun(pixel, width, height, y);
+                        straightHei(pixel, width, height, y);
                         return;
                     }
                 }
@@ -42,7 +66,7 @@ namespace ip
         {
             for (var x = 0; x < width; ++x)
             {
-                var dy = wavey[(x + 26) % wavey.Length];
+                var dy = waveyhei[x];
                 if (dy > 0)
                 {
                     var y = startY;
@@ -53,10 +77,10 @@ namespace ip
                 }
             }
             int[] wavex = new int[] {
-                /*                 15                      */2,
-                1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
-                1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 7, 7, 7,
-                7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
+                /*                 15                      */1,
+                1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2,
+                2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
+                12, 12, 12, 12, 12, 12, 0, 0, 0, 0, 0, 0
             };
             for (var y = startY > 15 ? startY : 15; y < height; ++y)
             {
@@ -73,7 +97,7 @@ namespace ip
         {
             for (var x = 0; x < width; ++x)
             {
-                var dy = wavey[x % wavey.Length];
+                var dy = waveysun[x % waveysun.Length];
                 if (dy > 0)
                 {
                     var y = startY;
@@ -98,6 +122,37 @@ namespace ip
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
             }
+        }
+
+        static void straightXi(byte[,] pixel, int width, int height, int startY)
+        {
+            for (var x = 0; x < width; ++x)
+            {
+                var dy = waveyxi[x];
+                if (dy > 0)
+                {
+                    var y = startY;
+                    for (; y < height - dy; ++y)
+                        pixel[x, y] = pixel[x, y + dy];
+                    for (; y < height; ++y)
+                        pixel[x, y] = 255;
+                }
+            }
+            /*int[] wavex = new int[] {
+                /*                 16                      *
+                4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1,
+                1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 7, 7, 7, 7,
+                7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
+            };
+            for (var y = startY > 16 ? startY : 16; y < height; ++y)
+            {
+                var dx = wavex[y - 16];
+                var x = 0;
+                for (; x < width - dx; ++x)
+                    pixel[x, y] = pixel[x + dx, y];
+                for (; x < width; ++x)
+                    pixel[x, y] = 255;
+            }*/
         }
 
         public static Bitmap Do(string path)
@@ -164,7 +219,7 @@ namespace ip
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Do("R:\\1.jpg");
+            pictureBox1.Image = Do("D:\\1.jpg");
         }
     }
 }
