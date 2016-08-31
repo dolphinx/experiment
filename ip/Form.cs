@@ -30,6 +30,17 @@ namespace ip
         };
         static int[] waveyxi = new int[] {
             4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 3, 4,
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4,
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 0,
+            0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 4,
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4,
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 0,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4,
             4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0,
             0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4,
@@ -49,13 +60,13 @@ namespace ip
                     var dySun = waveysun[x % waveysun.Length];
                     if (pixel[x, y + dySun] == 0)
                     {
-                        straightHei(pixel, width, height, y);
+                        straightXi(pixel, width, height, y);
                         return;
                     }
                     var dyHei = waveysun[(x + 26) % waveysun.Length];
                     if (pixel[x, y + dyHei] == 0)
                     {
-                        straightHei(pixel, width, height, y);
+                        straightXi(pixel, width, height, y);
                         return;
                     }
                 }
@@ -219,7 +230,7 @@ namespace ip
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Do("D:\\1.jpg");
+            pictureBox1.Image = Do("R:\\1.jpg");
         }
     }
 }
