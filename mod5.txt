@@ -1,4 +1,4 @@
-chars[i].x + chars[i].width - 2
+chars[i].x + chars[i].width - 1
 
 	{
 		char c = chars[i].c;
