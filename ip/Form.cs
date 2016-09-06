@@ -40,36 +40,14 @@ namespace ip
             4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
-        static void straight(byte[,] pixel, int width, int height)
-        {
-            for (var y = 0; y < height; ++y)
-            {
-                for (var x = 0; x < width; ++x)
-                {
-                    var dySun = waveysun[x % waveysun.Length];
-                    if (pixel[x, y + dySun] == 0)
-                    {
-                        straightXi(pixel, width, height, y);
-                        return;
-                    }
-                    var dyHei = waveysun[(x + 26) % waveysun.Length];
-                    if (pixel[x, y + dyHei] == 0)
-                    {
-                        straightXi(pixel, width, height, y);
-                        return;
-                    }
-                }
-            }
-        }
-
-        static void straightHei(byte[,] pixel, int width, int height, int startY)
+        static void straightHei(byte[,] pixel, int width, int height)
         {
             for (var x = 0; x < width; ++x)
             {
                 var dy = waveyhei[x];
                 if (dy > 0)
                 {
-                    var y = startY;
+                    var y = 0;
                     for (; y < height - dy; ++y)
                         pixel[x, y] = pixel[x, y + dy];
                     for (; y < height; ++y)
@@ -82,7 +60,7 @@ namespace ip
                 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
                 12, 12, 12, 12, 12, 12, 0, 0, 0, 0, 0, 0
             };
-            for (var y = startY > 15 ? startY : 15; y < height - 6; ++y)
+            for (var y = 15; y < height - 6; ++y)
             {
                 var dx = wavex[y];
                 var x = 0;
@@ -93,14 +71,14 @@ namespace ip
             }
         }
 
-        static void straightSun(byte[,] pixel, int width, int height, int startY)
+        static void straightSun(byte[,] pixel, int width, int height)
         {
             for (var x = 0; x < width; ++x)
             {
                 var dy = waveysun[x % waveysun.Length];
                 if (dy > 0)
                 {
-                    var y = startY;
+                    var y = 0;
                     for (; y < height - dy; ++y)
                         pixel[x, y] = pixel[x, y + dy];
                     for (; y < height; ++y)
@@ -113,7 +91,7 @@ namespace ip
                 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 7,
                 7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
             };
-            for (var y = startY > 19 + 12 ? startY : 19 + 12; y < height - 6; ++y)
+            for (var y = 19 + 12; y < height - 6; ++y)
             {
                 var dx = wavex[y];
                 var x = 0;
@@ -124,14 +102,14 @@ namespace ip
             }
         }
 
-        static void straightXi(byte[,] pixel, int width, int height, int startY)
+        static void straightXi(byte[,] pixel, int width, int height)
         {
             for (var x = 0; x < width; ++x)
             {
                 var dy = waveyxi[x];
                 if (dy > 0)
                 {
-                    var y = startY;
+                    var y = 0;
                     for (; y < height - dy; ++y)
                         pixel[x, y] = pixel[x, y + dy];
                     for (; y < height; ++y)
@@ -144,7 +122,7 @@ namespace ip
                 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
                 12, 12, 12, 12, 12, 12, 0, 0, 0, 0, 0, 0
             };
-            for (var y = startY > 16 ? startY : 16; y < height; ++y)
+            for (var y = 16; y < height; ++y)
             {
                 var dx = wavex[y];
                 var x = 0;
@@ -155,7 +133,7 @@ namespace ip
             }
         }
 
-        public static Bitmap Do(string path)
+        public static Bitmap Do(string path, int type)
         {
             Bitmap bmp = new Bitmap(path);
             int width = bmp.Width;
@@ -195,7 +173,12 @@ namespace ip
                     }
                     srcP += srcOffset;
                 }
-                straight(pixel, width, height);
+                if (type == 1)
+                    straightSun(pixel, width, height);
+                else if (type == 2)
+                    straightHei(pixel, width, height);
+                else if (type == 3)
+                    straightXi(pixel, width, height);
                 srcP = (byte*)(void*)scan;
                 srcOffset = bmpData.Stride - width * 3;
                 var lines = new string[height];
@@ -219,7 +202,7 @@ namespace ip
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Do("D:\\1.jpg");
+            pictureBox1.Image = Do("D:\\1.jpg", 2);
         }
     }
 }

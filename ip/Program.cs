@@ -14,9 +14,9 @@ namespace ip
         [STAThread]
         static void Main(string[] args)
         {
-            if (args.Length == 1)
+            if (args.Length == 2)
             {
-                Form.Do(args[0]);
+                Form.Do(args[0], Convert.ToInt32(args[1]));
                 return;
             }
             Application.EnableVisualStyles();
