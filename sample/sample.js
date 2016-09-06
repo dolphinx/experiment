@@ -1,8 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
-scan('SimSun');
-scan('SimHei');
+scan('Xi');
 function scan(dir) {
 	var files = fs.readdirSync(dir);
 	files.forEach(function(f) {

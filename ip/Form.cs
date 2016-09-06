@@ -38,18 +38,7 @@ namespace ip
             4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1,
             0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4,
             4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-            4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1, 1, 0,
-            0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4,
-            4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0,
-            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4,
-            4, 4, 4, 4, 4, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0,
-            0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4,
-            4, 4, 4, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0,
-            0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4,
-            4, 4, 4, 3, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-            0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
         static void straight(byte[,] pixel, int width, int height)
         {
@@ -88,14 +77,14 @@ namespace ip
                 }
             }
             int[] wavex = new int[] {
-                /*                 15                      */1,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2,
                 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
                 12, 12, 12, 12, 12, 12, 0, 0, 0, 0, 0, 0
             };
-            for (var y = startY > 15 ? startY : 15; y < height; ++y)
+            for (var y = startY > 15 ? startY : 15; y < height - 6; ++y)
             {
-                var dx = wavex[y - 15];
+                var dx = wavex[y];
                 var x = 0;
                 for (; x < width - dx; ++x)
                     pixel[x, y] = pixel[x + dx, y];
@@ -119,14 +108,14 @@ namespace ip
                 }
             }
             int[] wavex = new int[] {
-                //16
-                /* 3 + 12*/ 1,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 7,
                 7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
             };
-            for (var y = startY > 19 + 12 ? startY : 19 + 12; y < height; ++y)
+            for (var y = startY > 19 + 12 ? startY : 19 + 12; y < height - 6; ++y)
             {
-                var dx = wavex[y - (19 + 12)];
+                var dx = wavex[y];
                 var x = 0;
                 for (; x < width - dx; ++x)
                     pixel[x, y] = pixel[x + dx, y];
@@ -149,21 +138,21 @@ namespace ip
                         pixel[x, y] = 255;
                 }
             }
-            /*int[] wavex = new int[] {
-                /*                 16                      *
-                4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1,
-                1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 7, 7, 7, 7,
-                7, 8, 8, 8, 8, 10, 0, 0, 0, 0, 0, 0
+            int[] wavex = new int[] {
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2,
+                2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
+                12, 12, 12, 12, 12, 12, 0, 0, 0, 0, 0, 0
             };
             for (var y = startY > 16 ? startY : 16; y < height; ++y)
             {
-                var dx = wavex[y - 16];
+                var dx = wavex[y];
                 var x = 0;
                 for (; x < width - dx; ++x)
                     pixel[x, y] = pixel[x + dx, y];
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
-            }*/
+            }
         }
 
         public static Bitmap Do(string path)
@@ -230,7 +219,7 @@ namespace ip
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Do("R:\\1.jpg");
+            pictureBox1.Image = Do("D:\\1.jpg");
         }
     }
 }
