@@ -109,7 +109,7 @@ namespace ip
                         pixel[x, y] = 255;
                 }
             }
-            /*int[] wavex = new int[] {
+            int[] wavex = new int[] {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2,
                 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9, 10, 10,
@@ -123,7 +123,7 @@ namespace ip
                     pixel[x, y] = pixel[x + dx, y];
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
-            }*/
+            }
         }
 
         static void straightSun(byte[,] pixel, int width, int height)
@@ -140,7 +140,7 @@ namespace ip
                         pixel[x, y] = 255;
                 }
             }
-            /*int[] wavex = new int[] {
+            int[] wavex = new int[] {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 7,
@@ -154,7 +154,7 @@ namespace ip
                     pixel[x, y] = pixel[x + dx, y];
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
-            }*/
+            }
         }
 
         static void straightXi(byte[,] pixel, int width, int height)
@@ -171,7 +171,7 @@ namespace ip
                         pixel[x, y] = 255;
                 }
             }
-            /*int[] wavex = new int[] {
+            int[] wavex = new int[] {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
                 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 8, 9, 9,
@@ -185,7 +185,7 @@ namespace ip
                     pixel[x, y] = pixel[x + dx, y];
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
-            }*/
+            }
         }
 
         static int[] waveyxi2 = new int[] {
@@ -214,7 +214,7 @@ namespace ip
                         pixel[x, y] = 255;
                 }
             }
-            /*int[] wavex = new int[] {
+            int[] wavex = new int[] {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 5, 5,
@@ -228,7 +228,7 @@ namespace ip
                     pixel[x, y] = pixel[x + dx, y];
                 for (; x < width; ++x)
                     pixel[x, y] = 255;
-            }*/
+            }
         }
 
         public static Bitmap Do(string path, int type)
@@ -295,10 +295,10 @@ namespace ip
                     srcP += srcOffset;
                     lines[y] = line;
                 }
-                //File.WriteAllLines(path + ".txt", lines);
+                File.WriteAllLines(path + ".txt", lines);
             }
             bmp.UnlockBits(bmpData);
-            bmp.Save(path + type + ".png");
+            //bmp.Save(path + type + ".png");
             return bmp;
         }
 

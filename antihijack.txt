@@ -1,0 +1,1 @@
+ iptables -A FORWARD -p tcp --sport 80 -m string --string "Location: http://59.108.200.39" --algo bm -j DROP
